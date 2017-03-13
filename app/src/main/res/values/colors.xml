@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="marvel_1">#FFD200</color>
+    <color name="marvel_2">#2F5DA9</color>
+    <color name="marvel_3">#FF4218</color>
+    <color name="marvel_4">#C7E7FB</color>
+
 </resources>

@@ -1,6 +1,8 @@
 package movie.app.android.nansolution.rxmovie;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,7 +20,9 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
+import io.saeid.fabloading.LoadingView;
 import movie.app.android.nansolution.rxmovie.util.Config;
+
 
 
 public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
@@ -28,6 +32,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     private YouTubePlayerView youTubeView;
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
+
+    private LoadingView mLoadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +48,19 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
+        youTubeView.setVisibility(View.GONE);
+        mLoadingView = (LoadingView) findViewById(R.id.loading_view);
+
+        initLoadingView();
+
+        mLoadingView.startAnimation();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                mLoadingView.pauseAnimation();
             }
         });
 
@@ -109,5 +122,37 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
     private YouTubePlayer.Provider getYouTubePlayerProvider() {
         return (YouTubePlayerView) findViewById(R.id.youtube_view);
+    }
+
+    private void initLoadingView() {
+        boolean isLollipop = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+        int marvel_1 = isLollipop ? R.drawable.marvel_1_lollipop : R.drawable.marvel_1;
+        int marvel_2 = isLollipop ? R.drawable.marvel_2_lollipop : R.drawable.marvel_2;
+        int marvel_3 = isLollipop ? R.drawable.marvel_3_lollipop : R.drawable.marvel_3;
+        int marvel_4 = isLollipop ? R.drawable.marvel_4_lollipop : R.drawable.marvel_4;
+
+        mLoadingView.addAnimation(R.color.marvel_1, marvel_1, LoadingView.FROM_LEFT);
+        mLoadingView.addAnimation(R.color.marvel_2, marvel_2, LoadingView.FROM_TOP);
+        mLoadingView.addAnimation(R.color.marvel_3, marvel_3, LoadingView.FROM_RIGHT);
+        mLoadingView.addAnimation(R.color.marvel_4, marvel_4, LoadingView.FROM_BOTTOM);
+
+        mLoadingView.setRepeat(1000);
+
+        mLoadingView.addListener(new LoadingView.LoadingListener() {
+            @Override
+            public void onAnimationStart(int currentItemPosition) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(int nextItemPosition) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(int nextItemPosition) {
+
+            }
+        });
     }
 }
